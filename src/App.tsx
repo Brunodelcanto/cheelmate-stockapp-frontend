@@ -4,6 +4,9 @@ import Register from "./pages/Register/Register";
 import ProtectedRoute from "./components/protectedRoute.tsx/ProtectedRoute";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import CategoryPage from "./pages/Category/Category";
+import EditCategory from "./components/editCategory/EditCategory";
+import ColorPage from "./pages/Color/Color";
+import EditColor from "./components/editColor/EditColor";
 
 function App() {
   return (
@@ -19,7 +22,10 @@ function App() {
             <div>
               <Routes>
                 <Route path="dashboard" element={<Dashboard />} />
-                <Route path="categories/*" element={<CategoryPage />} />
+                <Route path="categories/" element={<CategoryPage />} />
+                <Route path="/edit-category/:id" element={<EditCategory />} />
+                <Route path="colors/" element={<ColorPage />} />
+                <Route path="/edit-color/:id" element={<EditColor />} />
               </Routes>
             </div>
           } />

@@ -17,6 +17,7 @@ export interface Color {
     _id: string;
     name: string;
     hex: string;
+    isActive: boolean;
 }
 
 export interface ColorVariant {

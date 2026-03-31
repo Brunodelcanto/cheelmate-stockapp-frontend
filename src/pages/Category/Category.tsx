@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import CategoryList from "../../components/categoryList/CategoryList";
+import CreateCategory from "../../components/createCategory/CreateCategory";
 
 const CategoryPage = () => {
     const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -31,12 +32,12 @@ const CategoryPage = () => {
         <main>
         
         {/* SECCIÓN DE CREACIÓN */}
-        {/* <section>
+        <section>
             <div>
                 <h2>Añadir Clasificacion</h2>
             </div>
             <CreateCategory onCategoryCreated={() => setRefreshTrigger(prev => prev + 1)} />
-        </section> */}
+        </section>
 
         {/* SECCION DE LISTADO: CategoryList */}
         <section>
