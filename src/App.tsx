@@ -7,6 +7,8 @@ import CategoryPage from "./pages/Category/Category";
 import EditCategory from "./components/editCategory/EditCategory";
 import ColorPage from "./pages/Color/Color";
 import EditColor from "./components/editColor/EditColor";
+import ProductPage from "./pages/Product/Product";
+import EditProduct from "./components/editProduct/EditProduct";
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
                 <Route path="/edit-category/:id" element={<EditCategory />} />
                 <Route path="colors/" element={<ColorPage />} />
                 <Route path="/edit-color/:id" element={<EditColor />} />
+                <Route path="products/" element={<ProductPage />} />
+                <Route path="/edit-product/:id" element={<EditProduct />} />
               </Routes>
             </div>
           } />

@@ -21,7 +21,7 @@ export interface Color {
 }
 
 export interface ColorVariant {
-    _id: string;
+    _id?: string;
     color: string | Color;
     amount: number;
     priceCost: number;
@@ -34,6 +34,7 @@ export interface Product {
     category: string | Category;
     variants: ColorVariant[];
     minStockAlert: number;
+    isActive: boolean;
     image: {
         url: string;
         public_id: string;
@@ -67,4 +68,11 @@ export interface CartItem {
     price: number;
     maxStock: number;
 }
-    
+
+export interface ProductFormValues {
+    name: string;
+    category: string;
+    minStockAlert: number;
+    variants: (Omit<ColorVariant, 'color'> & { color: string })[]; 
+    image: FileList | null;
+}
