@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@tailwindcss/vite": "^4.2.4",
     "axios": "^1.13.6",
     "browser-image-compression": "^2.0.2",
     "joi": "^18.1.1",
@@ -21,7 +22,8 @@
     "react-hook-form": "^7.72.0",
     "react-router": "^7.13.2",
     "react-router-dom": "^7.13.2",
-    "resolver": "^0.1.12"
+    "resolver": "^0.1.12",
+    "tailwindcss": "^4.2.4"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",

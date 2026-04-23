@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@layer base {
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield; /* Para Firefox */
+    appearance: textfield;
+  }
+}
+@theme {
+  --color-primary: #5FB3E6;
+  --color-primary-dark: #3B9DD9;
+  --color-primary-light: #87C7EC;
+  
+  --color-accent-green: #4CAF50;
+  --color-accent-orange: #FF9800;
+  --color-accent-red: #F44336;
+
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  @keyframes shimmer {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
+  }
+}

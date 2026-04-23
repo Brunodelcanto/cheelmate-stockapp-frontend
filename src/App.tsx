@@ -10,6 +10,7 @@ import EditColor from "./components/editColor/EditColor";
 import ProductPage from "./pages/Product/Product";
 import EditProduct from "./components/editProduct/EditProduct";
 import SalePage from "./pages/Sale/Sale";
+import NavBar from "./components/navBar/NavBar";
 
 function App() {
   return (
@@ -23,6 +24,9 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="*" element={
             <div>
+              <NavBar />
+
+            <div>
               <Routes>
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="categories/" element={<CategoryPage />} />
@@ -33,6 +37,7 @@ function App() {
                 <Route path="/edit-product/:id" element={<EditProduct />} />
                 <Route path="sales/" element={<SalePage />} />
               </Routes>
+            </div>
             </div>
           } />
         </Route>
