@@ -48,10 +48,10 @@ const CategoryPage = () => {
         </section>
         </main>
         <footer>
-            <p>
-                Ché el mate System • 2026
-            </p>
-        </footer>
+                <p>
+                    Ché el mate - Control de Stock - 2026
+                </p>
+            </footer>
         </div>
     )
 }

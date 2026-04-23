@@ -54,8 +54,10 @@ const ColorPage = () => {
             </main>
 
             {/* FOOTER DE PÁGINA */}
-            <footer>
-                <p> Ché, el mate Stock System • 2026</p>
+             <footer>
+                <p>
+                    Ché el mate - Control de Stock - 2026
+                </p>
             </footer>
 
         </div>

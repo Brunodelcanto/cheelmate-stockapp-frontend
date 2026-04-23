@@ -58,6 +58,7 @@ export interface Sale {
     totalProfit: number;
     comment?: string;
     createdAt: string;
+    customerName: string;
 }
 
 export interface CartItem {

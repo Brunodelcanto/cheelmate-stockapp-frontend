@@ -9,6 +9,7 @@ import ColorPage from "./pages/Color/Color";
 import EditColor from "./components/editColor/EditColor";
 import ProductPage from "./pages/Product/Product";
 import EditProduct from "./components/editProduct/EditProduct";
+import SalePage from "./pages/Sale/Sale";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
                 <Route path="/edit-color/:id" element={<EditColor />} />
                 <Route path="products/" element={<ProductPage />} />
                 <Route path="/edit-product/:id" element={<EditProduct />} />
+                <Route path="sales/" element={<SalePage />} />
               </Routes>
             </div>
           } />
