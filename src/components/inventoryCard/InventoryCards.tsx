@@ -121,10 +121,14 @@ return (
 
             {/* CONTENEDOR DE CATEGORÍAS */}
             <div className="space-y-14">
-                {Object.keys(groupedProducts).map((categoryName) => (
+                {Object.keys(groupedProducts).sort((a, b) => {
+                const firstProductA = groupedProducts[a][0];
+                const firstProductB = groupedProducts[b][0];
+                 return new Date(firstProductA.createdAt || 0).getTime() - new Date(firstProductB.createdAt || 0).getTime();
+                    }).map((categoryName) => (
                     <div key={categoryName} className="space-y-6">
                         
-                        {/* HEADER DE CATEGORIA */}
+                        {/* HEADER */}
                         <div className="flex items-center gap-3 border-b border-slate-200/60 pb-3 px-2">
                             <Layers className="w-4 h-4 text-brand-primary" />
                             <h2 className="text-xl font-black text-brand-dark uppercase tracking-tighter italic leading-none">{categoryName}</h2>
@@ -249,7 +253,7 @@ return (
                 ))}
             </div>
 
-            {/* MODAL DE ELIMINACION BLUR FLOTANTE */}
+            {/* MODAL DE ELIMINACION */}
             {showModal && (
                 <div className="fixed inset-0 bg-brand-dark/20 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
                     <div className="bg-white p-8 rounded-[2.5rem] shadow-2xl max-w-sm w-full border border-slate-100 text-center animate-in zoom-in-95 duration-200">

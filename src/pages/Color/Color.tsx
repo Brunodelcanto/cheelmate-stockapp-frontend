@@ -22,7 +22,7 @@ const ColorPage = () => {
 return (
         <div className="min-h-screen bg-[#f8fafc] text-brand-dark font-sans tracking-tight p-6 md:p-10 animate-in fade-in duration-500">
 
-            {/* HEADER DE LA PÁGINA DE ESTILO (Alineado a max-w-6xl mx-auto) */}
+            {/* HEADER */}
             <header className="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12 pb-6 border-b border-slate-200/60">
                 <div className="flex items-center gap-5">
                     <div className="bg-brand-primary p-3.5 rounded-2xl shadow-lg shadow-brand-dark/10 text-white">
@@ -39,10 +39,10 @@ return (
                 </div>
             </header>
 
-            {/* CONTENEDOR PRINCIPAL - FLUJO VERTICAL SECUENCIAL */}
+            {/* CONTENEDOR PRINCIPAL */}
             <main className="max-w-6xl mx-auto space-y-12">
                 
-                {/* 1. SECCIÓN SUPERIOR: CREACIÓN (Alineado al margen izquierdo) */}
+                {/* SECCIÓN SUPERIOR */}
                 <section className="space-y-4 flex flex-col items-start w-full">
                     <div className="w-full flex items-center gap-3 px-2">
                         <div className="w-2 h-8 bg-brand-primary rounded-full" />
@@ -51,11 +51,9 @@ return (
                         </h2>
                     </div>
                     
-                    {/* Renderizado directo sobre el margen izquierdo */}
                     <CreateColor onColorCreated={() => setRefreshTrigger(prev => prev + 1)} />
                 </section>
 
-                {/* DIVISOR DE SECCIÓN ESTILO BOLD POP */}
                 <div className="relative flex py-4 items-center select-none">
                     <div className="flex-grow border-t border-slate-200/80"></div>
                     <span className="flex-shrink mx-4 bg-brand-light text-brand-primary font-black uppercase tracking-widest text-[9px] px-4 py-1.5 rounded-full shadow-brand-dark/10 italic">
@@ -64,7 +62,7 @@ return (
                     <div className="flex-grow border-t border-slate-200/80"></div>
                 </div>
 
-                {/* 2. SECCIÓN INFERIOR:  GALERÍA (Encapsulado idéntico a Categorías) */}
+                {/* SECCIÓN INFERIOR */}
                 <section id="color-list-section" className="space-y-6">
                     <div className="flex items-center gap-3 px-2">
                         <div className="w-2 h-8 bg-brand-primary rounded-full" />
@@ -73,7 +71,6 @@ return (
                         </h2>
                     </div>
 
-                    {/* SE ADICIONA LA TARJETA ÚNICA DE ENCAPSULAMIENTO EN CREMA ( rounded-[3rem] ) */}
                     <div className="bg-brand-secondary p-6 md:p-10 rounded-[3rem] border border-stone-100/60 shadow-premium w-full">
                         <ColorList refreshTrigger={refreshTrigger} />
                     </div>
@@ -81,7 +78,7 @@ return (
                 
             </main>
 
-            {/* FOOTER DE LA PÁGINA */}
+            {/* FOOTER */}
             <footer className="max-w-6xl mx-auto mt-20 pt-8 pb-8 border-t border-slate-200/60 text-center flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-400">
                 <p className="text-[10px] font-bold uppercase tracking-widest">
                     Ché el mate - Control de Stock - v4.0

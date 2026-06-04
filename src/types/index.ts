@@ -11,6 +11,7 @@ export interface Category {
     _id: string;
     name: string;
     isActive: boolean;
+    createdAt: string;
 }
 
 export interface Color {
@@ -18,6 +19,7 @@ export interface Color {
     name: string;
     hex: string;
     isActive: boolean;
+    createdAt: string;
 }
 
 export interface ColorVariant {
@@ -40,6 +42,7 @@ export interface Product {
         public_id: string;
     };
     totalProfit?: number;
+    createdAt: string;
 }
 
 export interface SaleItem {

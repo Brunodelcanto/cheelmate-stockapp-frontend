@@ -100,7 +100,6 @@ const EditColor = () => {
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     
-                    {/* MENSAJES DE ESTADO */}
                     {(serverError || errorMessage) && (
                         <div className="p-4 bg-brand-alert/10 border border-brand-alert/20 rounded-xl text-brand-alert font-bold text-xs flex items-center gap-3">
                             <ShieldAlert className="w-4 h-4 flex-shrink-0" /> {serverError || errorMessage}

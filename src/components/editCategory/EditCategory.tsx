@@ -68,7 +68,6 @@ const EditCategory = () => {
         </div>
     );
 
-    // Clases del sistema Modern Pop unificadas
     const inputStyle = "w-full bg-[#f4f6f9] text-[#1e293b] font-bold text-sm px-5 py-4 rounded-2xl border border-transparent focus:bg-white focus:border-brand-primary/40 transition-all duration-200 outline-none placeholder:text-slate-400 shadow-inner";
     const labelStyle = "text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2 px-1";
 
@@ -76,7 +75,7 @@ const EditCategory = () => {
         <div className="min-h-screen bg-slate-50/50 flex items-center justify-center p-4 md:p-8">
             <div className="bg-white p-8 md:p-12 rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.04)] border border-slate-100 max-w-xl w-full">
                 
-                {/* HEADER DE ACCIÓN */}
+                {/* HEADER */}
                 <div className="flex items-center gap-4 mb-10">
                     <div className="bg-[#f4f6f9] p-4 rounded-2xl text-brand-primary shadow-inner">
                         <Edit3 className="w-6 h-6" />
@@ -89,7 +88,6 @@ const EditCategory = () => {
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     
-                    {/* MENSAJES DE ESTADO */}
                     {errorMessage && (
                         <div className="p-4 bg-brand-alert/10 border border-brand-alert/20 rounded-xl text-brand-alert font-bold text-xs flex items-center gap-3">
                             <ShieldAlert className="w-4 h-4 flex-shrink-0" /> {errorMessage}
@@ -101,7 +99,6 @@ const EditCategory = () => {
                         </div>
                     )}
 
-                    {/* CAMPO DE NOMBRE DE CATEGORÍA */}
                     <div>
                         <label className={labelStyle}>Nombre actualizado</label>
                         <input
@@ -111,8 +108,7 @@ const EditCategory = () => {
                         />
                         {errors.name && <p className="text-brand-alert font-bold text-[10px] uppercase mt-2 px-1">{errors.name.message}</p>}
                     </div>
-                    
-                    {/* BOTONES DE ACCIÓN */}
+
                     <div className="flex flex-col sm:flex-row gap-4 pt-4">
                         <button
                             type="submit"

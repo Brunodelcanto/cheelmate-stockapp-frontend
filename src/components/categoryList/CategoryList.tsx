@@ -120,7 +120,7 @@ const CategoryList = ({ refreshTrigger }: CategoryListProps) => {
 
             {/* GRILLA DE TARJETAS DE CATEGORÍA */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredCategories.map(category => (
+                {filteredCategories.sort((a, b) => new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime()).map(category => (
                     <div
                         key={category._id}
                         onClick={() => navigate(`/edit-category/${category._id}`)}
