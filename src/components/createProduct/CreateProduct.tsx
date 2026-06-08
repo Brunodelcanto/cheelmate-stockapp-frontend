@@ -75,8 +75,8 @@ const CreateProduct = ({ onProductCreated }: CreateProductProps) => {
         defaultValues: {
             name: "",
             category: "",
-            minStockAlert: 5,
-            variants: [{ color: "", amount: 0, priceCost: 0, priceSell: 0 }]
+            minStockAlert: "" as unknown as number,
+            variants: [{ color: "", amount: "" as unknown as number, priceCost: "" as unknown as number, priceSell: "" as unknown as number }]
         }
     });
 
@@ -182,7 +182,7 @@ const CreateProduct = ({ onProductCreated }: CreateProductProps) => {
         setPreview(null);
     };
 
-    const inputStyle = "w-full bg-[#f8fafc] text-brand-dark font-semibold text-sm px-5 py-4 rounded-xl border border-transparent focus:bg-white focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/10 transition-all duration-200 outline-none placeholder:text-brand-dark/30 shadow-inner";
+    const inputStyle = "w-full bg-[#f8fafc] text-brand-dark font-semibold text-sm px-5 py-4 rounded-xl border border-transparent focus:bg-white focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/10 transition-all duration-200 outline-none placeholder:text-brand-dark/30 shadow-inner [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none";
     const labelStyle = "text-[10px] font-black text-brand-dark/40 uppercase tracking-widest block mb-2 px-1";
 
     return (
@@ -249,7 +249,8 @@ const CreateProduct = ({ onProductCreated }: CreateProductProps) => {
                             <label className={labelStyle}>Alerta de stock</label>
                             <input 
                                 type="number" 
-                                {...register("minStockAlert")} 
+                                {...register("minStockAlert")}
+                                placeholder="Ej: 5" 
                                 className={inputStyle}
                             />
                         </div>
@@ -344,6 +345,7 @@ const CreateProduct = ({ onProductCreated }: CreateProductProps) => {
                                 <input 
                                     type="number" 
                                     {...register(`variants.${index}.amount` as const)} 
+                                    placeholder="Ej: 100"
                                     className={`${inputStyle} py-3.5`}
                                 />
                             </div>
@@ -354,6 +356,7 @@ const CreateProduct = ({ onProductCreated }: CreateProductProps) => {
                                     type="number" 
                                     step="0.01" 
                                     {...register(`variants.${index}.priceCost` as const)} 
+                                    placeholder="Ej: 10.000"
                                     className={`${inputStyle} py-3.5`}
                                 />
                             </div>
@@ -364,6 +367,7 @@ const CreateProduct = ({ onProductCreated }: CreateProductProps) => {
                                     type="number" 
                                     step="0.01" 
                                     {...register(`variants.${index}.priceSell` as const)} 
+                                    placeholder="Ej: 15.000"
                                     className={`${inputStyle} py-3.5`}
                                 />
                             </div>
