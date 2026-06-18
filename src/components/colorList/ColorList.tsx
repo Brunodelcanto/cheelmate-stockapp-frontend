@@ -167,6 +167,12 @@ const ColorList = ({ refreshTrigger }: ColorListProps) => {
                 ))}
             </div>
 
+            {filteredColors.length === 0 && (
+                <div className="bg-white p-12 rounded-[2rem] border border-slate-100/60 text-center shadow-pop">
+                    <p className="text-sm font-bold text-brand-dark/40 uppercase tracking-wide">No se encontraron colores registrados.</p>
+                </div>
+            )}
+
             {/* MODAL DE CONFIRMACIÓN DE ELIMINACIÓN */}
             {showModal && (
                 <div className="fixed inset-0 bg-brand-dark/20 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
