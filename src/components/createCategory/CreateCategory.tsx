@@ -1,46 +1,51 @@
 import { useState } from "react";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { joiResolver } from "@hookform/resolvers/joi";
 import api from "../../api/axiosConfig";
-import Joi from "joi";
 import { Tags, CheckCircle, ShieldAlert } from "lucide-react";
-
-interface CategoryFormValues {
-    name: string;
-}
 
 interface CreateCategoryProps {
     onCategoryCreated: () => void;
 }
 
-const categorySchema = Joi.object<CategoryFormValues>({
-    name: Joi.string().min(3).required().messages({
-        "string.empty": "El nombre es obligatorio",
-        "string.min": "Debe tener al menos 3 caracteres"
-    })
-});
-
 const CreateCategory = ({ onCategoryCreated }: CreateCategoryProps) => {
+    const [name, setName] = useState("");
+    const [inputError, setInputError] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
 
-    const { register, reset, handleSubmit, formState: { errors, isSubmitting } } = useForm<CategoryFormValues>({
-        resolver: joiResolver(categorySchema)
-    });
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const trimmedName = name.trim();
 
-    const onSubmit: SubmitHandler<CategoryFormValues> = async (data) => {
+        if (!trimmedName) {
+            setInputError("El nombre es obligatorio");
+            return;
+        }
+
+        if (trimmedName.length < 3) {
+            setInputError("Debe tener al menos 3 caracteres");
+            return;
+        }
+
+        setInputError("");
+        setIsSubmitting(true);
+
         try {
-            const response = await api.post("/categories", data);
+            const response = await api.post("/categories", { name: trimmedName });
+            
             if (!response.data.error) {
                 setSuccessMessage("Categoría creada exitosamente");
                 setTimeout(() => setSuccessMessage(""), 2000);
-                reset();
+                setName("");
                 onCategoryCreated();
             }
-        } catch (err) {
+        } catch (err: any) {
             console.error("Error al crear categoría:", err);
-            setErrorMessage("Error al crear categoría. Inténtalo de nuevo.");
-            setTimeout(() => setErrorMessage(""), 2000);
+            const serverMessage = err.response?.data?.message || "Error al crear categoría. Inténtalo de nuevo.";
+            setErrorMessage(serverMessage);
+            setTimeout(() => setErrorMessage(""), 2500);
+        } finally {
+            setIsSubmitting(false);
         }
     };
     
@@ -60,7 +65,7 @@ const CreateCategory = ({ onCategoryCreated }: CreateCategoryProps) => {
                     <p className="text-slate-400 font-bold text-[9px] uppercase tracking-[0.2em] mt-2">Configuración de Categorías • Ché, el mate</p>
                 </div>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                     
                     {successMessage && (
                         <div className="p-4 bg-brand-accent/10 border border-brand-accent/20 rounded-xl text-brand-accent font-bold text-xs flex items-center gap-3 text-left animate-in fade-in duration-200">
@@ -77,11 +82,16 @@ const CreateCategory = ({ onCategoryCreated }: CreateCategoryProps) => {
                     <div className="text-left">
                         <label className={labelStyle}>Nombre</label>
                         <input
-                            {...register("name")}
+                            type="text"
+                            value={name}
+                            onChange={(e) => {
+                                setName(e.target.value);
+                                if (inputError) setInputError("");
+                            }}
                             placeholder="Ej: Mates Imperiales, Camioneros, Bombillas"
                             className={inputStyle}
                         />
-                        {errors.name && <p className="text-brand-alert font-bold text-[10px] uppercase mt-2 px-1">{errors.name.message}</p>}
+                        {inputError && <p className="text-brand-alert font-bold text-[10px] uppercase mt-2 px-1">{inputError}</p>}
                     </div>
 
                     <div className="pt-2">
