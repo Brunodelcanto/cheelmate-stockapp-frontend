@@ -48,7 +48,7 @@ const EditProduct = () => {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
-    const { register, control, handleSubmit, reset, resetField, formState: { errors } } = useForm<ProductFormValues>({
+    const { register, control, handleSubmit, reset, resetField, watch, formState: { errors } } = useForm<ProductFormValues>({
         resolver: joiResolver(editSchema)
     });
 
@@ -92,6 +92,15 @@ const EditProduct = () => {
     }, [id, reset, navigate]);
 
     const onSubmit: SubmitHandler<ProductFormValues> = async (data) => {
+        const selectedColors = data.variants.map(v => v.color);
+        const hasDuplicates = selectedColors.some((color, index) => selectedColors.indexOf(color) !== index);
+
+         if (hasDuplicates) {
+        setErrorMessage("No puedes agregar el mismo color más de una vez");
+        setTimeout(() => setErrorMessage(""), 2500);
+        return;
+    }
+
         try {
             const formData = new FormData();
             formData.append("name", data.name);
@@ -237,8 +246,18 @@ const EditProduct = () => {
                                 <div className="col-span-4">
                                     <label className="text-[9px] font-black text-slate-300 uppercase tracking-wider mb-1 block">Color</label>
                                     <select {...register(`variants.${index}.color` as const)} className="w-full text-sm font-bold bg-transparent border-b border-slate-100 py-1 focus:border-brand-primary outline-none text-brand-dark">
-                                        {colors.map(col => <option key={col._id} value={col._id}>{col.name}</option>)}
-                                    </select>
+                                    <option value="">Seleccionar color...</option>
+                                    {colors.map(col => {
+                                        const isAlreadySelected = fields.some((_, idx) => 
+                                        idx !== index && watch(`variants.${idx}.color`) === col._id
+                                        );
+                                    return (
+                                            <option key={col._id} value={col._id} disabled={isAlreadySelected}>
+                                                {col.name} {isAlreadySelected ? "✕" : ""}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
                                 </div>
                                 <div className="col-span-2">
                                     <label className="text-[9px] font-black text-slate-300 uppercase tracking-wider mb-1 block">Stock</label>
