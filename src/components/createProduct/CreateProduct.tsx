@@ -69,6 +69,9 @@ const CreateProduct = ({ onProductCreated }: CreateProductProps) => {
     const [preview , setPreview] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [optimizedFile, setOptimizedFile] = useState<File | null>(null);
+    const [isCompressing, setIsCompressing] = useState<boolean>(false);
+
 
     const { register, control, handleSubmit, reset, resetField, watch, formState: { errors } } = useForm<ProductFormValues>({
         resolver: joiResolver(validationSchema),
@@ -107,7 +110,7 @@ const CreateProduct = ({ onProductCreated }: CreateProductProps) => {
             setTimeout(() => setErrorMessage(""), 2000);
             return;
         }
-        
+
         setLoading(true);
 
         try {
@@ -121,35 +124,27 @@ const CreateProduct = ({ onProductCreated }: CreateProductProps) => {
                 amount: Number(v.amount),
                 priceCost: Number(v.priceCost),
                 priceSell: Number(v.priceSell)
-            }))
+            }));
 
             formData.append("variants", JSON.stringify(cleanedVariants));
 
-            if (data.image && data.image[0]) {
-                const originalFile = data.image[0];
-                const options = { maxSizeMB: 0.5, maxWidthOrHeight: 1200, useWebWorker: true };
-
-                try {
-                    const compressedBlob = await imageCompression(originalFile, options);
-                    const compressedFile = new File([compressedBlob], originalFile.name, {
-                        type: originalFile.type,
-                        lastModified: Date.now(),
-                    });
-                    formData.append("image", compressedFile);
-                } catch (compressionError) {
-                    console.error("Error al comprimir la imagen:", compressionError);
-                    formData.append("image", originalFile);
-                }
+            const fileToSend = optimizedFile || (data.image && data.image[0]);
+            if (fileToSend) {
+                formData.append("image", fileToSend);
             }
 
             const token = localStorage.getItem("token");
             await api.post(`/products`, formData, {
-                headers: { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${token}` }
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    "Authorization": `Bearer ${token}`
+                }
             });
 
-            setSuccessMessage("¡Producto cargado con éxito!");
+            setSuccessMessage("Producto creado exitosamente");
             setTimeout(() => setSuccessMessage(""), 2000);
             setPreview(null);
+            setOptimizedFile(null);
             reset();
             onProductCreated();
         } catch (err) {
@@ -161,26 +156,51 @@ const CreateProduct = ({ onProductCreated }: CreateProductProps) => {
         }
     };
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => { setPreview(reader.result as string); };
-            reader.readAsDataURL(file);
-        } else {
+        if (!file) {
             setPreview(null);
+            setOptimizedFile(null);
+            return;
         }
-    };
+
+        const reader = new FileReader();
+        reader.onloadend = () => { setPreview(reader.result as string); };
+        reader.readAsDataURL(file);
+
+        setIsCompressing(true);
+        try {
+            const options = {
+                maxSizeMB: 0.3,
+                maxWidthOrHeight: 1000,
+                useWebWorker: true
+            };
+            const compressedBlob = await imageCompression(file, options);
+            const compressed = new File([compressedBlob], file.name, {
+                type: file.type,
+                lastModified: Date.now(),
+            });
+            setOptimizedFile(compressed);
+        } catch (error) {
+            console.error("Error al comprimir: ", error);
+            setOptimizedFile(file);
+        } finally {
+            setIsCompressing(false);
+        }
+    }
 
     const clearImage = () => {
         setPreview(null);
-        resetField("image"); 
-    };
+        setOptimizedFile(null);
+        resetField("image");
+    }
 
-    const handleClearForm = () => {
+       const handleClearForm = () => {
         reset();
         setPreview(null);
     };
+
 
     const inputStyle = "w-full bg-[#f8fafc] text-brand-dark font-semibold text-sm px-5 py-4 rounded-xl border border-transparent focus:bg-white focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/10 transition-all duration-200 outline-none placeholder:text-brand-dark/30 shadow-inner [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none";
     const labelStyle = "text-[10px] font-black text-brand-dark/40 uppercase tracking-widest block mb-2 px-1";
@@ -390,10 +410,14 @@ const CreateProduct = ({ onProductCreated }: CreateProductProps) => {
           <div className="w-full flex justify-center pt-4">
                 <button
                     type="submit"
-                    disabled={loading}
+                    disabled={loading || isCompressing}
                     className="w-full max-w-xs bg-brand-primary text-white font-black uppercase tracking-widest text-xs py-4 rounded-[var(--radius-action)] shadow-lg shadow-brand-primary/20 transition-all duration-300 hover:scale-[1.01] hover:bg-brand-primary/95 hover:shadow-xl active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none cursor-pointer text-center"
                 >
-                    {loading ? "Procesando operación..." : "Crear producto"}
+                    {isCompressing
+                        ? "Comprimiendo imagen..."
+                        : loading
+                            ? "Creando producto..."
+                            : "Crear producto"}
                 </button>
             </div>
         </form>
