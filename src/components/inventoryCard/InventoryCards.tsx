@@ -138,8 +138,8 @@ return (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {groupedProducts[categoryName].map((product) => {
                                 const totalStock = product.variants.reduce((sum, v) => sum + v.amount, 0);
-                                const outOfStock = totalStock === 0;
-                                const lowStock = totalStock > 0 && totalStock <= 5;
+                                const outOfStock = product.isActive && totalStock === 0;
+                                const lowStock = product.isActive && totalStock > 0 && totalStock <= 5;
 
                                 return (
                                     <div
